@@ -1,88 +1,43 @@
-# Project Title
+# Analyze Real time tweets
 
-One Paragraph of project description goes here
+Extract a particular topic on the Twitter API and find out the respective sentiments associated related to the tweet topic. Store the data using elastic search indexing and visualize the sentiment on dashbaord using kibana
 
-## Getting Started
+## Solution and Data Flow diagram
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+A python script is used to make API calls to Twitter using the Tweepy library and the tweets are streamed to a TCP port. A selected topic is used to search time tweet. The python script is running on a windows environment. An another Spark-Streaming application reads the tweets from the port already defined, transform the data and save results in elastic search index. 
+
+![Flow Diagram](https://github.com/anuragbagagi/TwitterRealTimeChatAnalysis/blob/master/Communication%20Flow%20Diagram.jpg)
 
 ### Prerequisites
-
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
+1. twitter app
+2. Anaconda 
+3. Apache-Spark
+4. Elastic search
+5. kibana
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
+Use the below link to install the requires tools
+link to follow for setting up a Twitter App:- https://iag.me/socialmedia/how-to-create-a-twitter-app-in-8-easy-steps/
+link to setup anaconda on windows: https://docs.anaconda.com/anaconda/install/windows/
+link to setup spark on windows(PySpark): https://medium.com/@GalarnykMichael/install-spark-on-windows-pyspark-4498a5d8d66c
+link to setup elastic search: https://www.elastic.co/guide/en/elasticsearch/reference/current/zip-windows.html
+link to setup kibana: https://www.elastic.co/guide/en/kibana/current/windows.html
+Instead of TCP port if someone wants to use kafka then use below link to setup kafka:
+https://dzone.com/articles/running-apache-kafka-on-windows-os
 
 ## Running the tests
+Before running the script delete the existing elastic search data using below command:
+curl -XDELETE http://localhost:9200/index name
 
-Explain how to run the automated tests for this system
+Add the required consumer_key, consumer_secret,access_token and access_secret to config file after registering and creating twitter app.
 
-### Break down into end to end tests
+The tweet Python script and the Spark-streaming file, is executed in sequence and we will be able to see tweets being collected and dashboard is updated every 10 seconds.
 
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+* https://www.eecs.yorku.ca/~papaggel/courses/eecs4415/docs/assignments/a3/a3.pdf
+* https://stackoverflow.com/questions/46762678/how-to-push-a-spark-dataframe-to-elastic-search-pyspark
+* https://www.toptal.com/spark/introduction-to-apache-spark
 
